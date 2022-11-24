@@ -12,6 +12,6 @@ const getOptions = (query: queryBody) => ({
 })
 
 export const postQuery = (query: queryBody) => fetch(
-    "http://localhost:3000/api/graphql",
+    window.location.origin + "/api/graphql",
     getOptions(query),
 ).then(response => response.json());

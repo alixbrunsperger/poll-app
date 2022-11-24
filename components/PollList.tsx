@@ -15,7 +15,7 @@ const PollList: FunctionComponent<PollListProps> = ({ polls, pollAnswers }) => {
   return (
     <Container maxWidth="sm" sx={{ margin: "auto" }}>
       <Stack spacing={2} sx={{ margin: "16px 0" }}>
-        {false && polls.map((poll: PollType) => (
+        {polls.map((poll: PollType) => (
           <PollListRow
             key={poll.uid}
             poll={poll}

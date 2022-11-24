@@ -78,7 +78,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 };
 
 type QueryResult = {
-  poll: PollType;
+  data: { poll: PollType };
   isError: boolean;
   error: ErrorType;
 };
@@ -94,7 +94,8 @@ const Poll: NextPage = () => {
     () => postQuery(getPollQuery(pollUId))
   );
 
-  const { data, isError, error } = queryResult;
+  const { data: queryData, isError, error } = queryResult;
+  const data = queryData?.data;
   const poll = data?.poll;
 
   const methods = useForm<any>({

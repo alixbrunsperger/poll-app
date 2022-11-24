@@ -39,7 +39,9 @@ const getPollQuery = (uid: string) => ({
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const pollId = context.params?.id as string;
   const queryClient = new QueryClient();
-  await queryClient.prefetchQuery("getPolls", () => postQuery(getPollQuery(pollId)));
+  await queryClient.prefetchQuery("getPolls", () =>
+    postQuery(getPollQuery(pollId))
+  );
   const data = queryClient.getQueryData("getPolls");
 
   return {
@@ -51,8 +53,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 };
 
 type QueryResult = {
-  poll: PollType;
-  pollAnswers: PollAnswerType[];
+  data: {
+    poll: PollType;
+    pollAnswers: PollAnswerType[];
+  };
   isError: boolean;
   error: ErrorType;
 };
@@ -66,7 +70,8 @@ const Details: NextPage = () => {
     () => postQuery(getPollQuery(pollUId))
   );
 
-  const { data, isError, error } = queryResult;
+  const { data: queryData, isError, error } = queryResult;
+  const data = queryData?.data;
 
   const poll = data?.poll;
   const pollAnswers = data?.pollAnswers;
