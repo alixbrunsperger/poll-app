@@ -71,7 +71,7 @@ export const QuestionsBlock: FunctionComponent<QuestionsBlockProps> = ({
       ))}
       <Button
         variant="outlined"
-        sx={{ backgroundColor: "#ffffff" }}
+        sx={{ backgroundColor: "#ffffff", marginTop: "1rem" }}
         onClick={() => {
           const id = uuidv4();
           const question = {

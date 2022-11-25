@@ -16,7 +16,7 @@ const PollDetails: FunctionComponent<PollDetailsProps> = ({ poll }) => (
       {poll.questions.map((question) => (
         <Paper
           key={question.uid}
-          sx={{ padding: "8px", backgroundColor: "#eee" }}
+          sx={{ padding: "8px", backgroundColor: "#fff" }}
           variant="outlined"
         >
           <Box sx={{ fontWeight: "bold" }}>{`Question : ${question.title} - (${

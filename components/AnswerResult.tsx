@@ -64,7 +64,7 @@ const AnswerResult: FunctionComponent<AnswerResultProps> = ({
   return (
     <Container sx={{ display: "grid", gridTemplateColumns: "2fr 1fr" }}>
       <div>{answer.value}</div>
-      <Box sx={{ fontSize: "0.9rem"}}>
+      <Box sx={{ fontSize: "0.8rem" }}>
         <OuterBar>
           <InnerBar percentage={votePercentage} />
         </OuterBar>

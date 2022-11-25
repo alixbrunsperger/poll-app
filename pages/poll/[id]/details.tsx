@@ -5,8 +5,28 @@ import PageContainer from "../../../components/PageContainer";
 import { postQuery } from "../../../lib/dataFetch";
 import { useRouter } from "next/router";
 import ResultContainer from "../../../components/ResultContainer";
-import { Typography } from "@mui/material";
+import { Typography, Box, Switch, FormControlLabel } from "@mui/material";
 import PollDetails from "../../../components/PollDetails";
+import { SetStateAction, useState, useEffect } from "react";
+
+const updatePollMutationQuery = ({ data, uid }) => ({
+  query: `
+  mutation UpdatePoll($data: PollUpdateInput!, $uid: String!) {
+    updatePoll(data: $data, where: {uid: $uid}) {
+      uid
+      active
+    }
+
+    publishPoll(where : {uid: $uid}) {
+      uid
+      active
+    }
+  }`,
+  variables: {
+    data,
+    uid,
+  },
+});
 
 const getPollQuery = (uid: string) => ({
   query: `
@@ -79,18 +99,50 @@ const Details: NextPage = () => {
     ?.map((pollAnswer) => pollAnswer.pollQuestionAnswers)
     .flat();
 
+  const [active, setActive] = useState(false);
+
+  useEffect(() => {
+    setActive(poll?.active);
+  }, [poll]);
+
   if (isError) {
     return <span>Error... {JSON.stringify(error)}</span>;
   }
 
+  const toggleActive = async (status: SetStateAction<boolean>) => {
+    const queryData = {
+      data: {
+        active: status,
+      },
+      uid: poll.uid,
+    };
+    setActive(status);
+    await postQuery(updatePollMutationQuery(queryData));
+  };
+
+  console.log(poll?.active, active);
+
   return (
     <PageContainer title={"Poll Details"} loaded={!!poll}>
-      <Typography variant="h4">{`Poll: ${poll?.title}`}</Typography>
+      <Box sx={{ display: "grid", gridTemplateColumns: "2fr 1fr" }}>
+        <Typography variant="h4">{`Poll: ${poll?.title}`}</Typography>
+        <FormControlLabel
+          control={
+            <Switch
+              checked={!!active}
+              onChange={() => toggleActive(!active)}
+              inputProps={{ "aria-label": "controlled" }}
+            />
+          }
+          label={active ? "Active" : "Inactive"}
+        />
+      </Box>
       <Typography variant="h6">Overview :</Typography>
       {poll && pollQuestionAnswers ? (
         <>
           <PollDetails poll={poll} />
           <ResultContainer
+            pollAnswercount={pollAnswers.length}
             poll={poll}
             pollQuestionAnswers={pollQuestionAnswers}
           />

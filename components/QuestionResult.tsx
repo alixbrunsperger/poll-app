@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from "react";
-import { Typography, Container, Stack } from "@mui/material";
+import { Typography, Paper, Stack, Container } from "@mui/material";
 import {
   AnswerType,
   PollQuestionAnswerType,
@@ -17,10 +17,10 @@ const QuestionResult: FunctionComponent<QuestionResultProps> = ({
   question,
   questionAnswers,
 }) => (
-  <Container disableGutters={true}>
+  <Paper sx={{ padding: "0.5rem" }}>
     <Typography variant="h5">Question: {question.title}</Typography>
     <Stack>
-      {question.type === QuestionFormTypes.multichoice ||
+    {question.type === QuestionFormTypes.multichoice ||
       question.type === QuestionFormTypes.choice
         ? question.answers.map((answer: AnswerType) => {
             const answerCount = questionAnswers?.filter((questionAnswer) =>
@@ -38,13 +38,13 @@ const QuestionResult: FunctionComponent<QuestionResultProps> = ({
         : null}
       {question.type === QuestionFormTypes.text ? (
         <Container>
-          {questionAnswers.map((questionAnswer) => (
-            <div key={questionAnswer.uid}>{questionAnswer.answers}</div>
+          {questionAnswers.map((questionAnswer,index) => (
+            <div key={index}>{`- ${questionAnswer.answers}`}</div>
           ))}
         </Container>
       ) : null}
     </Stack>
-  </Container>
+  </Paper>
 );
 
 export default QuestionResult;

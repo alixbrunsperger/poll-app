@@ -1,7 +1,11 @@
 import React, { FunctionComponent } from "react";
-import { Grid, Chip } from "@mui/material";
+import { Tooltip, Paper, Box } from "@mui/material";
 import Link from "next/link";
 import { PollType } from "../lib/types";
+import PublicIcon from "@mui/icons-material/Public";
+import PublicOffIcon from "@mui/icons-material/PublicOff";
+import AnalyticsIcon from "@mui/icons-material/Analytics";
+import LinkIcon from "@mui/icons-material/Link";
 
 interface PollListRowProps {
   poll: PollType;
@@ -12,29 +16,42 @@ const PollListRow: FunctionComponent<PollListRowProps> = ({
   answerCount,
 }) => {
   return (
-    <Grid
-      container
+    <Paper
       sx={{
+        display: "grid",
+        gridTemplateColumns: "2fr 1fr 1fr",
         alignItems: "center",
-        border: "2px solid black",
-        borderRadius: "10px",
         padding: "5px",
       }}
     >
-      <Grid item xs={6}>
+      <Box>
         <Link href={`/poll/${poll.uid}/details`}>{poll.title}</Link>
-      </Grid>
-      <Grid item xs={4}>
+      </Box>
+      <Box>
         {answerCount} answer{answerCount > 1 ? "s" : ""}
-      </Grid>
-      <Grid item xs={2} sx={{ textAlign: "center" }}>
-        {poll.active ? (
-          <Chip label="active" color="success" />
-        ) : (
-          <Chip label="inactive" color="error" />
-        )}
-      </Grid>
-    </Grid>
+      </Box>
+      <Box
+        sx={{
+          display: "grid",
+          gridTemplateColumns: "1fr 1fr 1fr",
+          justifyItems: "center",
+        }}
+      >
+        <Tooltip title={"See poll details and results"}>
+          <AnalyticsIcon />
+        </Tooltip>
+        <Tooltip title="Get the link of the poll">
+          <LinkIcon />
+        </Tooltip>
+        <Tooltip title={poll.active ? "active" : "inactive"}>
+          {poll.active ? (
+            <PublicIcon color="success" />
+          ) : (
+            <PublicOffIcon color="error" />
+          )}
+        </Tooltip>
+      </Box>
+    </Paper>
   );
 };
 

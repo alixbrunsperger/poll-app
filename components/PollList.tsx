@@ -13,7 +13,7 @@ const PollList: FunctionComponent<PollListProps> = ({ polls, pollAnswers }) => {
   const getAnswerCount = (pollId: string): number =>
     pollAnswers.filter((pollAnswer) => pollAnswer.pollUId === pollId).length;
   return (
-    <Container maxWidth="sm" sx={{ margin: "auto" }}>
+    <Container maxWidth="sm" sx={{ margin: "auto" }} disableGutters={true}>
       <Stack spacing={2} sx={{ margin: "16px 0" }}>
         {polls.map((poll: PollType) => (
           <PollListRow
@@ -28,7 +28,7 @@ const PollList: FunctionComponent<PollListProps> = ({ polls, pollAnswers }) => {
           href="/poll/create"
           component="a"
           LinkComponent={Link}
-          variant="outlined"
+          variant="contained"
           sx={{ margin: "auto", flexGrow: "1" }}
         >
           Create a new Poll <AddIcon />
